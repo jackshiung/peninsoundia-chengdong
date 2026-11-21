@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#6b7ebd">
 <meta name="color-scheme" content="light">
 <title>共聲島｜展覽論述</title>
@@ -27,7 +27,7 @@
      iPhone Safari（iOS 26）會把網址列後方當成網頁以外的區域，用 html 底色填 → html 底色＝漸層底色；
      頂端狀態列則取 body 底色 → body 底色＝漸層頂色。
      另外上下邊緣各放一條固定色條（.edge），Safari 會參考它來染狀態列／網址列 */
-  html{background:#5877ba;overscroll-behavior:none}
+  html{background:#5877ba;overscroll-behavior:none;touch-action:pan-x pan-y;-webkit-text-size-adjust:100%;text-size-adjust:100%} /* 鎖住縮放：不允許雙指縮放、連點放大 */
   .edge{position:fixed;left:0;right:0;z-index:0;pointer-events:none}
   .edge-top{top:0;height:env(safe-area-inset-top);background:#6b7ebd}
   .edge-bottom{bottom:0;height:calc(env(safe-area-inset-bottom) * 2.4);background:#5877ba}
@@ -244,6 +244,11 @@
 
 <script>
 (() => {
+  // 鎖住縮放：iPhone Safari 會忽略 user-scalable=no，另外攔下雙指縮放（連點放大由 CSS touch-action 擋）
+  const stop = e => e.preventDefault();
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(t => document.addEventListener(t, stop, { passive: false }));
+  document.addEventListener('touchmove', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+
   const app = document.getElementById('app');
   const audio = document.getElementById('audio');
   const wheel = document.getElementById('pinwheel');
