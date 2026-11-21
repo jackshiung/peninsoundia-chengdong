@@ -11,35 +11,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* RWD：以 375×812 版型為基準的縮放單位。取寬、高比例較小者，一般手機都剛好一屏；
-       螢幕太矮（橫放、極小手機）時最小 0.8 倍，改為可捲動，避免字太小 */
-    --u:min(calc(100vw / 375), max(.8px, calc(100vh / 812)));
+    /* RWD（以手機為主）：以 375 寬的版型為基準，只依螢幕寬度等比縮放；
+       平板、電腦最寬放大到 430px 寬的手機尺寸，置中顯示 */
+    --u:min(calc(100vw / 375), 1.1467px);
     --green:#c2da69;
     --white:#ffffff;
     --bg-top:#6b7ebd;
     --ink-soft:rgba(255,255,255,.78);
   }
-  @supports (height:100dvh){
-    :root{--u:min(calc(100vw / 375), max(.8px, calc(100dvh / 812)))}
-  }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  /* 背景：固定圖層，上下各多延伸半個畫面高。
-     上方延伸區＝漸層頂色、下方延伸區＝漸層底色，
-     所以瀏覽器狀態列、工具列後方、上下回彈露出的地方都會接上正確的顏色 */
+  /* 背景：漸層畫在 body 上，body 最少撐滿「工具列收起時的整個螢幕高」(100lvh)，
+     所以 LINE／Safari 底部工具列後方也是漸層的一部分，不會露出別的顏色。
+     html 底色＝漸層頂色，給頂端狀態列用 */
   html{background:#6b7ebd;overscroll-behavior:none}
-  .bg{
-    position:fixed;left:0;right:0;top:-50vh;height:200vh;z-index:-1;pointer-events:none;
-    background:linear-gradient(180deg,
-      /* 圖層高 200vh、上移 50vh：畫面範圍＝25%～75%，原本漸層 0～100% 對應到這段 */
-      #6b7ebd 0%, #6b7ebd 25%,
-      #7281be 37.5%, #8288c1 50%, #8c8ec5 59%, #7a84c0 64%, #657cbc 68%, #5877ba 75%,
-      #5877ba 100%);
-  }
   body{
     font-family:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;
     color:var(--white);
-    background:transparent;
-    min-height:100vh;min-height:100dvh;
+    background:linear-gradient(180deg,#6b7ebd 0%,#7281be 25%,#8288c1 50%,#8c8ec5 68%,#7a84c0 78%,#657cbc 86%,#5877ba 100%) no-repeat #5877ba;
+    background-size:100% 100%;
+    min-height:100vh;min-height:100lvh;
     overscroll-behavior:none;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
@@ -182,7 +172,6 @@
 </style>
 </head>
 <body>
-<div class="bg" aria-hidden="true"></div>
 <main id="app">
   <img class="logo" src="assets/logo.svg" alt="共聲島 PeninSOUNDla">
 
