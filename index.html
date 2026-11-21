@@ -165,7 +165,7 @@
 </head>
 <body>
 <main id="app">
-  <img class="logo" src="assets/logo.svg" alt="共聲島 PeninSOUNDIa">
+  <img class="logo" src="assets/logo.svg" alt="共聲島 PeninSOUNDla">
 
   <div class="phones" role="note">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -195,7 +195,7 @@
     </div>
   </div>
 
-  <footer>共聲島 PeninSOUNDIa</footer>
+  <footer>sound by PeninSOUNDla</footer>
 </main>
 
 <audio id="audio" src="assets/audio.mp3" preload="metadata"></audio>
@@ -257,7 +257,7 @@
 
   // 鎖定畫面／通知列顯示
   if ('mediaSession' in navigator) {
-    navigator.mediaSession.metadata = new MediaMetadata({ title: '展覽論述', artist: '共聲島 PeninSOUNDIa', album: '城東大院子' });
+    navigator.mediaSession.metadata = new MediaMetadata({ title: '展覽論述', artist: '共聲島 PeninSOUNDla', album: '城東大院子' });
     navigator.mediaSession.setActionHandler('play', () => audio.play());
     navigator.mediaSession.setActionHandler('pause', () => audio.pause());
   }
