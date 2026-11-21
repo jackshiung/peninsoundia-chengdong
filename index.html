@@ -111,11 +111,12 @@
   .playing .tap-hint{opacity:0}
 
   h1{
-    margin-top:63.8px;
+    margin-top:33.8px;
     font-size:clamp(24px,7.4vw,32px);font-weight:900;letter-spacing:.06em;
     color:var(--green);text-align:center;line-height:1.3;
   }
-  h1 .comma{margin-right:-.5em} /* 標點擠壓：逗號半形寬 */
+  /* 標點擠壓：逗號佔半格，字形置中在半格裡（繁中字型的逗號畫在字框正中） */
+  h1 .comma{display:inline-block;width:.5em;white-space:nowrap;text-indent:-.25em;overflow:visible}
 
   /* 播放控制 */
   .player{
