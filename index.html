@@ -120,9 +120,9 @@
     0%{transform:translate(-50%,-50%) scale(.55);opacity:.7}
     100%{transform:translate(-50%,-50%) scale(1.55);opacity:0}
   }
-  /* 點擊提示：風車中心一個會按壓的光點＋兩圈漣漪（D 觸控光點），第一次播放後消失 */
+  /* 點擊提示：風車正中心一個會按壓的光點＋兩圈漣漪（D 觸控光點），第一次播放後消失 */
   .tap-dot,.tap-ripple{position:absolute;pointer-events:none;z-index:2;border-radius:50%;
-    left:calc(50% + 6 * var(--u));top:calc(50% + 10 * var(--u))}
+    left:50%;top:50%} /* 對準風車中心（圓孔＝旋轉中心＝框的正中央） */
   .tap-dot{
     width:calc(27 * var(--u));height:calc(27 * var(--u));margin:calc(-13.5 * var(--u)) 0 0 calc(-13.5 * var(--u));
     background:#fff;
