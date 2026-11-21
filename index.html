@@ -120,39 +120,25 @@
     0%{transform:translate(-50%,-50%) scale(.55);opacity:.7}
     100%{transform:translate(-50%,-50%) scale(1.55);opacity:0}
   }
-  /* 點擊提示：手指在風車中心點一下＋漣漪，第一次播放後消失 */
-  .finger,.tap-ripple{position:absolute;pointer-events:none;z-index:2}
-  .finger{
-    width:calc(52 * var(--u));height:calc(52 * var(--u));
-    left:calc(50% + 6 * var(--u) - 17.3 * var(--u));top:calc(50% + 10 * var(--u) - 4.3 * var(--u));
-    color:#fff;opacity:0;
-    transform-origin:33% 8%;
-    filter:drop-shadow(0 calc(2 * var(--u)) calc(6 * var(--u)) rgba(40,50,110,.45));
-    animation:fingerTap 2.6s ease-in-out .6s infinite;
+  /* 點擊提示：風車中心一個會按壓的光點＋兩圈漣漪（D 觸控光點），第一次播放後消失 */
+  .tap-dot,.tap-ripple{position:absolute;pointer-events:none;z-index:2;border-radius:50%;
+    left:calc(50% + 6 * var(--u));top:calc(50% + 10 * var(--u))}
+  .tap-dot{
+    width:calc(27 * var(--u));height:calc(27 * var(--u));margin:calc(-13.5 * var(--u)) 0 0 calc(-13.5 * var(--u));
+    background:#fff;
+    box-shadow:0 0 calc(19 * var(--u)) rgba(255,255,255,.9),0 0 calc(35 * var(--u)) rgba(194,218,105,.8);
+    animation:tapDot 2s ease-in-out infinite;
   }
-  .finger .palm{fill:rgba(255,255,255,.22);stroke:none}
   .tap-ripple{
-    width:calc(34 * var(--u));height:calc(34 * var(--u));border-radius:50%;
-    left:calc(50% + 6 * var(--u));top:calc(50% + 10 * var(--u));
-    margin:calc(-17 * var(--u)) 0 0 calc(-17 * var(--u));
-    border:2px solid rgba(194,218,105,.95);
-    opacity:0;
-    animation:tapRipple 2.6s ease-out .6s infinite;
+    width:calc(43 * var(--u));height:calc(43 * var(--u));margin:calc(-21.5 * var(--u)) 0 0 calc(-21.5 * var(--u));
+    border:2px solid rgba(194,218,105,.95);opacity:0;
+    animation:tapRipple 2s ease-out infinite;
   }
-  @keyframes fingerTap{
-    0%{opacity:0;transform:translate(calc(16 * var(--u)),calc(20 * var(--u)))}
-    18%{opacity:1;transform:translate(0,0) scale(1)}
-    30%{transform:translate(0,0) scale(.86)}
-    40%{transform:translate(0,0) scale(1)}
-    72%{opacity:1;transform:translate(0,0)}
-    90%,100%{opacity:0;transform:translate(calc(8 * var(--u)),calc(10 * var(--u)))}
-  }
-  @keyframes tapRipple{
-    0%,28%{opacity:0;transform:scale(.3)}
-    32%{opacity:.95;transform:scale(.4)}
-    70%,100%{opacity:0;transform:scale(1.5)}
-  }
-  .started .finger,.started .tap-ripple{animation:none;opacity:0;transition:opacity .3s}
+  .tap-ripple.r2{animation-delay:.35s}
+  @keyframes tapDot{0%,100%{transform:scale(1);opacity:.9}35%{transform:scale(.7);opacity:1}}
+  @keyframes tapRipple{0%,30%{opacity:0;transform:scale(.4)}35%{opacity:.95;transform:scale(.5)}85%,100%{opacity:0;transform:scale(2)}}
+  .tap-dot,.tap-ripple{transition:opacity .4s}
+  .started .tap-dot,.started .tap-ripple{animation:none;opacity:0}
   .tap-hint{
     font-size:calc(13.62 * var(--u));letter-spacing:.2em;color:var(--ink-soft);
     transition:opacity .4s;
@@ -210,7 +196,7 @@
   @media (prefers-reduced-motion:reduce){
     .phones::before,.phones svg{animation:none}
     .playing .ring{animation:none}
-    .finger{animation:none;opacity:1}
+    .tap-dot,.tap-ripple{animation:none}
   }
 </style>
 </head>
@@ -237,14 +223,8 @@
     <span class="stick"></span>
     <img class="pinwheel" id="pinwheel" src="assets/pinwheel.svg" alt="">
     <span class="tap-ripple" aria-hidden="true"></span>
-    <svg class="finger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path class="palm" d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15L6 14V4a2 2 0 0 1 4 0V10Z"/>
-      <path d="M22 14a8 8 0 0 1-8 8"/>
-      <path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/>
-      <path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1"/>
-      <path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10"/>
-      <path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
-    </svg>
+    <span class="tap-ripple r2" aria-hidden="true"></span>
+    <span class="tap-dot" aria-hidden="true"></span>
   </button>
   <span class="gap g3" aria-hidden="true"></span>
   <h1>跟著風聲<span class="comma">，</span>聽見共聲島</h1>
