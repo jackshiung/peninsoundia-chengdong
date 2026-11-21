@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#6b7ebd">
+<meta name="color-scheme" content="light">
 <title>共聲島｜展覽論述</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +17,15 @@
     --ink-soft:rgba(255,255,255,.78);
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  html,body{height:100%}
+  /* 網頁以外的區域（瀏覽器工具列後方、上下回彈）統一填漸層底色，避免漸層重複出現色帶 */
+  html{background:#5877ba;min-height:100%;overscroll-behavior:none}
   body{
     font-family:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;
     color:var(--white);
-    background:var(--bg-top);
-    background-image:linear-gradient(180deg,#6b7ebd 0%,#7281be 25%,#8288c1 50%,#8c8ec5 68%,#7a84c0 78%,#657cbc 86%,#5877ba 100%);
-    background-attachment:fixed;
-    min-height:100dvh;
+    background:linear-gradient(180deg,#6b7ebd 0%,#7281be 25%,#8288c1 50%,#8c8ec5 68%,#7a84c0 78%,#657cbc 86%,#5877ba 100%) no-repeat #5877ba;
+    background-size:100% 100%;
+    min-height:100vh;min-height:100dvh;
+    overscroll-behavior:none;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
   }
