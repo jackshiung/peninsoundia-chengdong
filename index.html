@@ -13,14 +13,14 @@
   :root{
     /* RWD（以手機為主）：以 375 寬的版型為基準，只依螢幕寬度等比縮放；
        平板、電腦最寬放大到 430px 寬的手機尺寸，置中顯示 */
-    --u:min(calc(100vw / 375), max(.8px, calc((100vh - env(safe-area-inset-top) - calc(env(safe-area-inset-bottom) * 2.4)) / 598.4)), 1.1467px);
+    --u:min(calc(100vw / 375), max(.8px, calc((100vh - env(safe-area-inset-top) - calc(env(safe-area-inset-bottom) * 2.4)) / 614.4)), 1.1467px);
     --green:#c2da69;
     --white:#ffffff;
     --bg-top:#6b7ebd;
     --ink-soft:rgba(255,255,255,.78);
   }
   @supports (height:100dvh){
-    :root{--u:min(calc(100vw / 375), max(.8px, calc((100dvh - env(safe-area-inset-top) - calc(env(safe-area-inset-bottom) * 2.4)) / 598.4)), 1.1467px)}
+    :root{--u:min(calc(100vw / 375), max(.8px, calc((100dvh - env(safe-area-inset-top) - calc(env(safe-area-inset-bottom) * 2.4)) / 614.4)), 1.1467px)}
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   /* 背景：漸層畫在 body 上，body 最少撐滿整個螢幕高 (100lvh)。
@@ -48,7 +48,7 @@
     /* 高度＝瀏覽器實際可見高度（扣掉 Safari／Chrome／LINE 的網址列、工具列）；
        元件大小固定，只有元件之間的間距會依可見高度伸縮，所以一屏放得下、不被裁切 */
     height:100vh;height:100dvh;
-    min-height:calc(598.4 * var(--u) + env(safe-area-inset-top) + calc(env(safe-area-inset-bottom) * 2.4));
+    min-height:calc(614.4 * var(--u) + env(safe-area-inset-top) + calc(env(safe-area-inset-bottom) * 2.4));
     padding:env(safe-area-inset-top) calc(24 * var(--u)) 0;
     display:flex;flex-direction:column;align-items:center;
   }
@@ -186,10 +186,10 @@
   .g0{flex:1.6 1 calc(90 * var(--u));min-height:calc(34 * var(--u))} /* 上方留白：比下方多，整組內容略往下（使用者要求往下移） */
   .g1{flex-basis:calc(34 * var(--u));min-height:calc(12 * var(--u))}
   .g2{flex-basis:calc(7.7 * var(--u));min-height:0}
-  .g3{flex-basis:calc(36.3 * var(--u));min-height:calc(12 * var(--u))}
+  .g3{flex:0 .6 calc(48.3 * var(--u));min-height:calc(16 * var(--u))} /* 畫面不夠高時少縮，保住紅框下移 */
   .g4{flex-basis:calc(11.3 * var(--u));min-height:calc(6 * var(--u))}
   .g5{flex-basis:calc(32.2 * var(--u));min-height:calc(14 * var(--u))}
-  .g6{flex:0 1 calc(71.4 * var(--u));min-height:calc(10 * var(--u))} /* 播放器到頁尾（SVG 91.4，使用者要求內容下移 20、頁尾不動） */
+  .g6{flex:0 1.2 calc(59.4 * var(--u));min-height:calc(22 * var(--u))} /* 播放器到頁尾（SVG 91.4，使用者要求內容下移 20、頁尾不動） */
   .g7{flex:1 1 calc(26.7 * var(--u));min-height:calc(8 * var(--u))} /* 下方留白 */
   /* 底部預留：只有 iPhone Safari（iOS 26）網址列浮在網頁上，會蓋住最下方。
      這種情況 safe-area-inset-bottom 約 34px → 預留約 82px；Chrome、LINE、Android 為 0，不預留 */
