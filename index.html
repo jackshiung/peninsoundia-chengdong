@@ -140,16 +140,18 @@
   .tap-dot,.tap-ripple{transition:opacity .4s}
   .started .tap-dot,.started .tap-ripple{animation:none;opacity:0}
   .tap-hint{
-    font-size:calc(13.62 * var(--u));letter-spacing:.2em;color:var(--ink-soft);
+    font-size:calc(13.62 * var(--u));letter-spacing:.2em;padding-left:.2em;color:#fff; /* 純白（依 SVG）；補回行尾字距，置中 */
     transition:opacity .4s;
   }
 
+  .tap-hint .sp{display:inline-block;width:.418em} /* 「風車」與「開始」之間的空白（依 SVG） */
   h1{
-    font-size:calc(26.71 * var(--u));font-weight:900;letter-spacing:.06em;
+    font-size:calc(26.71 * var(--u));font-weight:900;letter-spacing:.06em;padding-left:.06em; /* 補回行尾字距，置中 */
     color:var(--green);text-align:center;line-height:1.3;
   }
   /* 標點擠壓：逗號佔半格，字形置中在半格裡（繁中字型的逗號畫在字框正中） */
-  h1 .comma{display:inline-block;width:.5em;white-space:nowrap;text-indent:-.25em;overflow:visible}
+  /* 逗號：佔 0.7 字寬（依 SVG：聲→聽 約 1.7 個字距），字形置中在這格裡 */
+  h1 .comma{display:inline-block;width:.72em;white-space:nowrap;text-indent:-.18em;overflow:visible}
 
   /* 播放控制 */
   /* 播放器：沒有播放鍵，播放／暫停都靠點風車；時間軸左右留白相同、置中，方便拖曳回放 */
@@ -171,10 +173,10 @@
     position:absolute;top:50%;left:0;width:calc(14 * var(--u));height:calc(14 * var(--u));margin:calc(-7 * var(--u)) 0 0 calc(-7 * var(--u));
     border-radius:50%;background:#fff;box-shadow:0 1px calc(6 * var(--u)) rgba(0,0,0,.25);
   }
-  .times{margin-top:calc(-.2 * var(--u));display:flex;justify-content:space-between;font-size:calc(12 * var(--u));color:var(--ink-soft);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+  .times{margin-top:calc(-.2 * var(--u));display:flex;justify-content:space-between;font-size:calc(12 * var(--u));color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.04em}
 
   footer{
-    font-size:calc(9.5 * var(--u));letter-spacing:.06em;color:rgba(255,255,255,.6);text-align:center;
+    font-size:calc(9.5 * var(--u));letter-spacing:0;color:#fff;text-align:center;
   }
 
   /* 間距：依 375×812 版型的原始間距；畫面不夠高時按比例縮，但不小於最小值。
@@ -184,9 +186,9 @@
   .g0{flex:1.6 1 calc(90 * var(--u));min-height:calc(34 * var(--u))} /* 上方留白：比下方多，整組內容略往下（使用者要求往下移） */
   .g1{flex-basis:calc(34 * var(--u));min-height:calc(12 * var(--u))}
   .g2{flex-basis:calc(7.7 * var(--u));min-height:0}
-  .g3{flex-basis:calc(28.3 * var(--u));min-height:calc(10 * var(--u))}
+  .g3{flex-basis:calc(36.3 * var(--u));min-height:calc(12 * var(--u))}
   .g4{flex-basis:calc(11.3 * var(--u));min-height:calc(6 * var(--u))}
-  .g5{flex-basis:calc(40.2 * var(--u));min-height:calc(16 * var(--u))}
+  .g5{flex-basis:calc(32.2 * var(--u));min-height:calc(14 * var(--u))}
   .g6{flex:0 1 calc(71.4 * var(--u));min-height:calc(10 * var(--u))} /* 播放器到頁尾（SVG 91.4，使用者要求內容下移 20、頁尾不動） */
   .g7{flex:1 1 calc(26.7 * var(--u));min-height:calc(8 * var(--u))} /* 下方留白 */
   /* 底部預留：只有 iPhone Safari（iOS 26）網址列浮在網頁上，會蓋住最下方。
@@ -229,7 +231,7 @@
   <span class="gap g3" aria-hidden="true"></span>
   <h1>跟著風聲<span class="comma">，</span>聽見共聲島</h1>
   <span class="gap g4" aria-hidden="true"></span>
-  <p class="tap-hint">輕觸風車　開始聆聽</p>
+  <p class="tap-hint">輕觸風車<span class="sp" aria-hidden="true"></span>開始聆聽</p>
 
   <span class="gap g5" aria-hidden="true"></span>
   <div class="player">
