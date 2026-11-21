@@ -13,14 +13,14 @@
   :root{
     /* RWD（以手機為主）：以 375 寬的版型為基準，只依螢幕寬度等比縮放；
        平板、電腦最寬放大到 430px 寬的手機尺寸，置中顯示 */
-    --u:min(calc(100vw / 375), max(.8px, calc((100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 56px) / 586.4)), 1.1467px);
+    --u:min(calc(100vw / 375), max(.8px, calc((100vh - env(safe-area-inset-top) - calc(env(safe-area-inset-bottom) * 2.4)) / 586.4)), 1.1467px);
     --green:#c2da69;
     --white:#ffffff;
     --bg-top:#6b7ebd;
     --ink-soft:rgba(255,255,255,.78);
   }
   @supports (height:100dvh){
-    :root{--u:min(calc(100vw / 375), max(.8px, calc((100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 56px) / 586.4)), 1.1467px)}
+    :root{--u:min(calc(100vw / 375), max(.8px, calc((100dvh - env(safe-area-inset-top) - calc(env(safe-area-inset-bottom) * 2.4)) / 586.4)), 1.1467px)}
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   /* 背景：漸層畫在 body 上，body 最少撐滿「工具列收起時的整個螢幕高」(100lvh)，
@@ -43,7 +43,7 @@
     /* 高度＝瀏覽器實際可見高度（扣掉 Safari／Chrome／LINE 的網址列、工具列）；
        元件大小固定，只有元件之間的間距會依可見高度伸縮，所以一屏放得下、不被裁切 */
     height:100vh;height:100dvh;
-    min-height:calc(586.4 * var(--u) + env(safe-area-inset-top) + env(safe-area-inset-bottom) + 56px);
+    min-height:calc(586.4 * var(--u) + env(safe-area-inset-top) + calc(env(safe-area-inset-bottom) * 2.4));
     padding:env(safe-area-inset-top) calc(24 * var(--u)) 0;
     display:flex;flex-direction:column;align-items:center;
   }
@@ -171,17 +171,17 @@
      g6（播放器到頁尾）最先縮，畫面比版型高時多出來的空間也放這裡 */
   .logo,.phones,.stage,h1,.tap-hint,.player,footer{flex-shrink:0}
   .gap{display:block;width:100%;flex:0 1 auto}
-  .g0{flex:1 1 calc(24 * var(--u));min-height:calc(12 * var(--u))} /* 上方空白：和 g7 平分，內容垂直置中 */
+  .g0{flex:60.2 1 calc(60.2 * var(--u));min-height:calc(12 * var(--u))} /* 上方留白（依 SVG 60.2） */
   .g1{flex-basis:calc(34 * var(--u));min-height:calc(12 * var(--u))}
   .g2{flex-basis:calc(7.7 * var(--u));min-height:0}
   .g3{flex-basis:calc(28.3 * var(--u));min-height:calc(10 * var(--u))}
   .g4{flex-basis:calc(11.3 * var(--u));min-height:calc(6 * var(--u))}
   .g5{flex-basis:calc(40.2 * var(--u));min-height:calc(16 * var(--u))}
-  .g6{flex:0 1 calc(34 * var(--u));min-height:calc(16 * var(--u))} /* 播放器到頁尾 */
-  .g7{flex:1 1 calc(24 * var(--u));min-height:calc(12 * var(--u))} /* 下方空白：和 g0 平分 */
-  /* 底部預留：Safari（iOS 26 浮動網址列）、Chrome、LINE 的底部工具列會蓋住畫面最下方，
-     內容在扣掉這段之後的範圍裡置中 */
-  .g8{flex:0 0 auto;height:calc(env(safe-area-inset-bottom) + 56px)}
+  .g6{flex:0 1 calc(91.4 * var(--u));min-height:calc(16 * var(--u))} /* 播放器到頁尾（依 SVG 91.4） */
+  .g7{flex:36.7 1 calc(36.7 * var(--u));min-height:calc(12 * var(--u))} /* 下方留白（依 SVG 36.7）；畫面比版型高時，多的空間按 60.2：36.7 分給上下 */
+  /* 底部預留：只有 iPhone Safari（iOS 26）網址列浮在網頁上，會蓋住最下方。
+     這種情況 safe-area-inset-bottom 約 34px → 預留約 82px；Chrome、LINE、Android 為 0，不預留 */
+  .g8{flex:0 0 auto;height:calc(env(safe-area-inset-bottom) * 2.4)}
   @media (prefers-reduced-motion:reduce){
     .phones::before,.phones svg{animation:none}
     .playing .ring{animation:none}
