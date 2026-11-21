@@ -133,21 +133,28 @@
   h1 .comma{display:inline-block;width:.5em;white-space:nowrap;text-indent:-.25em;overflow:visible}
 
   /* 播放控制 */
+  /* 還沒開始：播放鍵不佔位置，時間軸左右留白相同、置中。
+     點風車開始後：播放鍵從左邊展開淡入，時間軸讓出位置（照版型：左 8.7、鍵 36.9、間距 18.2） */
   .player{
     width:100%;
-    padding:0 calc(12.2 * var(--u)) 0 calc(8.7 * var(--u));
-    display:flex;align-items:flex-start;gap:calc(18.2 * var(--u));
+    padding:0 calc(12.2 * var(--u));
+    display:flex;align-items:flex-start;
+    transition:padding .6s ease;
   }
+  .started .player{padding-left:calc(8.7 * var(--u))}
   .play{
     position:relative;
-    flex:none;width:calc(36.9 * var(--u));height:calc(36.9 * var(--u));border-radius:50%;
+    flex:none;width:0;height:calc(36.9 * var(--u));border-radius:50%;margin-right:0;overflow:hidden;
     border:0;cursor:pointer;
     background:var(--green);color:#5c6eab;
     display:grid;place-items:center;
     box-shadow:0 calc(4 * var(--u)) calc(12 * var(--u)) rgba(60,70,140,.3);
-    transition:transform .15s;
+    transition:transform .15s, opacity .7s ease .15s, width .6s ease, margin .6s ease;
+    /* 一開始先藏起來：第一次要點風車播放，之後播放鍵才展開淡入 */
+    opacity:0;pointer-events:none;
   }
   .play::after{content:"";position:absolute;inset:calc(-5 * var(--u));border-radius:50%} /* 擴大點擊範圍 */
+  .started .play{opacity:1;pointer-events:auto;width:calc(36.9 * var(--u));margin-right:calc(18.2 * var(--u));overflow:visible}
   .play:active{transform:scale(.94)}
   .play svg{width:calc(14.7 * var(--u));height:calc(14.7 * var(--u))}
   .play .i-pause{display:none}
@@ -224,7 +231,7 @@
 
   <span class="gap g5" aria-hidden="true"></span>
   <div class="player">
-    <button class="play" id="play" aria-label="播放">
+    <button class="play" id="play" aria-label="播放" tabindex="-1" aria-hidden="true">
       <svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
       <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="5.5" y="4" width="4.5" height="16" rx="1.2"/><rect x="14" y="4" width="4.5" height="16" rx="1.2"/></svg>
     </button>
@@ -276,9 +283,9 @@
 
   function toggle() { audio.paused ? audio.play() : audio.pause(); }
   document.getElementById('stage').addEventListener('click', toggle);
-  playBtn.addEventListener('click', toggle);
+  playBtn.addEventListener('click', () => { if (app.classList.contains('started')) toggle(); }); // 第一次要點風車
 
-  audio.addEventListener('play', () => { app.classList.add('playing'); target = PLAY; playBtn.setAttribute('aria-label', '暫停'); });
+  audio.addEventListener('play', () => { if (!app.classList.contains('started')) { app.classList.add('started'); playBtn.removeAttribute('tabindex'); playBtn.removeAttribute('aria-hidden'); } app.classList.add('playing'); target = PLAY; playBtn.setAttribute('aria-label', '暫停'); });
   audio.addEventListener('pause', () => { app.classList.remove('playing'); target = IDLE; playBtn.setAttribute('aria-label', '播放'); });
   audio.addEventListener('ended', () => { audio.currentTime = 0; });
   audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
