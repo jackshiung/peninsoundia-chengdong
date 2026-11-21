@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#6b7ebd">
+<title>共聲島｜展覽論述</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#c2da69;
+    --white:#ffffff;
+    --bg-top:#6b7ebd;
+    --ink-soft:rgba(255,255,255,.78);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;
+    color:var(--white);
+    background:var(--bg-top);
+    background-image:linear-gradient(180deg,#6b7ebd 0%,#7281be 25%,#8288c1 50%,#8c8ec5 68%,#7a84c0 78%,#657cbc 86%,#5877ba 100%);
+    background-attachment:fixed;
+    min-height:100dvh;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  main{
+    position:relative;
+    max-width:460px;margin:0 auto;
+    min-height:100dvh;
+    padding:calc(env(safe-area-inset-top) + 28px) 24px calc(env(safe-area-inset-bottom) + 28px);
+    display:flex;flex-direction:column;align-items:center;
+  }
+
+  .logo{width:62%;max-width:250px;display:block}
+
+  /* 耳機提示 */
+  .phones{
+    position:relative;
+    margin-top:22px;
+    display:flex;align-items:center;gap:10px;
+    padding:8px 16px 8px 10px;
+    border-radius:999px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(194,218,105,.35);
+    font-size:14px;font-weight:500;letter-spacing:.08em;
+    color:var(--white);
+  }
+  /* 發光層：固定的光暈，只改透明度 → 亮暗過渡平滑沒有斷點 */
+  .phones::before{
+    content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
+    border:1px solid rgba(194,218,105,.95);
+    box-shadow:0 0 14px rgba(194,218,105,.5), 0 0 30px rgba(194,218,105,.22), inset 0 0 10px rgba(194,218,105,.16);
+    opacity:0;
+    animation:breathe 3s cubic-bezier(.45,0,.55,1) infinite alternate;
+  }
+  @keyframes breathe{ from{opacity:0} to{opacity:1} }
+  .phones svg{
+    width:26px;height:26px;color:var(--green);
+    filter:drop-shadow(0 0 6px rgba(194,218,105,.9));
+    animation:breatheIcon 3s cubic-bezier(.45,0,.55,1) infinite alternate;
+  }
+  @keyframes breatheIcon{ from{opacity:.6} to{opacity:1} }
+
+  /* 風車 */
+  .stage{
+    position:relative;
+    width:min(78vw,320px);
+    aspect-ratio:1;
+    margin-top:18px;
+    cursor:pointer;
+    border:0;background:none;
+    touch-action:manipulation;
+  }
+  .stick{
+    position:absolute;left:50%;top:50%;
+    width:5px;height:50%;
+    transform:translateX(-50%);
+    background:#5c6eab;
+    border:1.2px solid #fff;
+    border-top:0;
+    -webkit-mask-image:linear-gradient(180deg,#000 55%,transparent);
+            mask-image:linear-gradient(180deg,#000 55%,transparent);
+  }
+  .pinwheel{
+    position:absolute;inset:0;width:100%;height:100%;
+    will-change:transform;
+  }
+  .ring{
+    position:absolute;left:50%;top:50%;
+    width:70%;aspect-ratio:1;
+    border:1.5px solid rgba(194,218,105,.8);
+    border-radius:50%;
+    transform:translate(-50%,-50%) scale(.6);
+    opacity:0;pointer-events:none;
+  }
+  .playing .ring{animation:ripple 3.6s ease-out infinite}
+  .playing .ring:nth-child(2){animation-delay:1.2s}
+  .playing .ring:nth-child(3){animation-delay:2.4s}
+  @keyframes ripple{
+    0%{transform:translate(-50%,-50%) scale(.55);opacity:.7}
+    100%{transform:translate(-50%,-50%) scale(1.55);opacity:0}
+  }
+  .tap-hint{
+    margin-top:6px;font-size:12px;letter-spacing:.2em;color:var(--ink-soft);
+    transition:opacity .4s;
+  }
+  .playing .tap-hint{opacity:0}
+
+  h1{
+    margin-top:22px;
+    font-size:clamp(24px,7.4vw,32px);font-weight:900;letter-spacing:.06em;
+    color:var(--green);text-align:center;line-height:1.3;
+  }
+  .sub{
+    margin-top:8px;font-size:14px;font-weight:500;letter-spacing:.12em;
+    color:var(--ink-soft);text-align:center;
+  }
+
+  /* 播放控制 */
+  .player{
+    width:100%;margin-top:26px;
+    display:flex;align-items:center;gap:16px;
+  }
+  .play{
+    flex:none;width:60px;height:60px;border-radius:50%;
+    border:0;cursor:pointer;
+    background:var(--green);color:#5c6eab;
+    display:grid;place-items:center;
+    box-shadow:0 6px 20px rgba(60,70,140,.35);
+    transition:transform .15s;
+  }
+  .play:active{transform:scale(.94)}
+  .play svg{width:24px;height:24px}
+  .play .i-pause{display:none}
+  .playing .play .i-play{display:none}
+  .playing .play .i-pause{display:block}
+  .track{flex:1;min-width:0}
+  .bar{
+    position:relative;height:22px;cursor:pointer;touch-action:none;
+  }
+  .bar::before,.fill{
+    content:"";position:absolute;left:0;top:50%;height:4px;margin-top:-2px;border-radius:4px;
+  }
+  .bar::before{right:0;background:rgba(255,255,255,.28)}
+  .fill{background:var(--green);width:0}
+  .knob{
+    position:absolute;top:50%;left:0;width:14px;height:14px;margin:-7px 0 0 -7px;
+    border-radius:50%;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.25);
+  }
+  .times{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+
+  footer{
+    margin-top:auto;padding-top:32px;
+    font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.6);text-align:center;
+  }
+  @media (prefers-reduced-motion:reduce){
+    .phones::before,.phones svg{animation:none}
+    .playing .ring{animation:none}
+  }
+</style>
+</head>
+<body>
+<main id="app">
+  <img class="logo" src="assets/logo.svg" alt="共聲島 PeninSOUNDIa">
+
+  <div class="phones" role="note">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 14v-2a9 9 0 0 1 18 0v2"/>
+      <path d="M3 14h3a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2z"/>
+      <path d="M21 14h-3a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1a2 2 0 0 0 2-2z"/>
+    </svg>
+    建議配戴耳機聆聽
+  </div>
+
+  <button class="stage" id="stage" aria-label="點擊風車播放／暫停">
+    <span class="ring"></span><span class="ring"></span><span class="ring"></span>
+    <span class="stick"></span>
+    <img class="pinwheel" id="pinwheel" src="assets/pinwheel.svg" alt="">
+  </button>
+  <p class="tap-hint">輕觸風車　開始聆聽</p>
+
+  <h1>跟著風聲，聽見共聲島</h1>
+  <p class="sub">聆聽期間限定的秘密</p>
+
+  <div class="player">
+    <button class="play" id="play" aria-label="播放">
+      <svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>
+      <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="5.5" y="4" width="4.5" height="16" rx="1.2"/><rect x="14" y="4" width="4.5" height="16" rx="1.2"/></svg>
+    </button>
+    <div class="track">
+      <div class="bar" id="bar"><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
+      <div class="times"><span id="cur">0:00</span><span id="dur">2:47</span></div>
+    </div>
+  </div>
+
+  <footer>共聲島 PeninSOUNDIa</footer>
+</main>
+
+<audio id="audio" src="assets/audio.mp3" preload="metadata"></audio>
+
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const audio = document.getElementById('audio');
+  const wheel = document.getElementById('pinwheel');
+  const bar = document.getElementById('bar');
+  const fill = document.getElementById('fill');
+  const knob = document.getElementById('knob');
+  const cur = document.getElementById('cur');
+  const dur = document.getElementById('dur');
+  const playBtn = document.getElementById('play');
+
+  const fmt = s => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+
+  // 風車：一開始靜止，播放後慢慢轉起來，暫停時慢慢停下
+  const IDLE = 0, PLAY = 80; // 度/秒
+  let angle = 0, speed = IDLE, target = IDLE, last = performance.now();
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function tick(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    speed += (target - speed) * Math.min(1, dt * 0.9);
+    angle = (angle - speed * dt) % 360; // 逆時針，符合葉片方向
+    wheel.style.transform = 'rotate(' + angle + 'deg)';
+    requestAnimationFrame(tick);
+  }
+  if (!reduce) requestAnimationFrame(tick);
+
+  function toggle() { audio.paused ? audio.play() : audio.pause(); }
+  document.getElementById('stage').addEventListener('click', toggle);
+  playBtn.addEventListener('click', toggle);
+
+  audio.addEventListener('play', () => { app.classList.add('playing'); target = PLAY; playBtn.setAttribute('aria-label', '暫停'); });
+  audio.addEventListener('pause', () => { app.classList.remove('playing'); target = IDLE; playBtn.setAttribute('aria-label', '播放'); });
+  audio.addEventListener('ended', () => { audio.currentTime = 0; });
+  audio.addEventListener('loadedmetadata', () => { dur.textContent = fmt(audio.duration); });
+
+  let dragging = false;
+  function render() {
+    const p = audio.duration ? audio.currentTime / audio.duration : 0;
+    fill.style.width = (p * 100) + '%';
+    knob.style.left = (p * 100) + '%';
+    cur.textContent = fmt(audio.currentTime);
+  }
+  audio.addEventListener('timeupdate', () => { if (!dragging) render(); });
+
+  function seek(e) {
+    const r = bar.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    if (audio.duration) { audio.currentTime = p * audio.duration; render(); }
+  }
+  bar.addEventListener('pointerdown', e => { dragging = true; bar.setPointerCapture(e.pointerId); seek(e); });
+  bar.addEventListener('pointermove', e => { if (dragging) seek(e); });
+  bar.addEventListener('pointerup', () => { dragging = false; });
+  bar.addEventListener('pointercancel', () => { dragging = false; });
+
+  // 鎖定畫面／通知列顯示
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({ title: '展覽論述', artist: '共聲島 PeninSOUNDIa', album: '城東大院子' });
+    navigator.mediaSession.setActionHandler('play', () => audio.play());
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+  }
+})();
+</script>
+</body>
+</html>
