@@ -181,13 +181,13 @@
      g6（播放器到頁尾）最先縮，畫面比版型高時多出來的空間也放這裡 */
   .logo,.phones,.stage,h1,.tap-hint,.player,footer{flex-shrink:0}
   .gap{display:block;width:100%;flex:0 1 auto}
-  .g0{flex:1.6 1 calc(70 * var(--u));min-height:calc(28 * var(--u))} /* 上方留白：比下方多，整組內容略往下（使用者要求往下移） */
+  .g0{flex:1.6 1 calc(90 * var(--u));min-height:calc(34 * var(--u))} /* 上方留白：比下方多，整組內容略往下（使用者要求往下移） */
   .g1{flex-basis:calc(34 * var(--u));min-height:calc(12 * var(--u))}
   .g2{flex-basis:calc(7.7 * var(--u));min-height:0}
   .g3{flex-basis:calc(28.3 * var(--u));min-height:calc(10 * var(--u))}
   .g4{flex-basis:calc(11.3 * var(--u));min-height:calc(6 * var(--u))}
   .g5{flex-basis:calc(40.2 * var(--u));min-height:calc(16 * var(--u))}
-  .g6{flex:0 1 calc(91.4 * var(--u));min-height:calc(16 * var(--u))} /* 播放器到頁尾（依 SVG 91.4） */
+  .g6{flex:0 1 calc(71.4 * var(--u));min-height:calc(10 * var(--u))} /* 播放器到頁尾（SVG 91.4，使用者要求內容下移 20、頁尾不動） */
   .g7{flex:1 1 calc(26.7 * var(--u));min-height:calc(8 * var(--u))} /* 下方留白 */
   /* 底部預留：只有 iPhone Safari（iOS 26）網址列浮在網頁上，會蓋住最下方。
      這種情況 safe-area-inset-bottom 約 34px → 預留約 82px；Chrome、LINE、Android 為 0，不預留 */
