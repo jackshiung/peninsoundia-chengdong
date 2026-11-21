@@ -125,8 +125,8 @@
     left:50%;top:50%} /* 對準風車中心（圓孔＝旋轉中心＝框的正中央） */
   .tap-dot{
     width:calc(27 * var(--u));height:calc(27 * var(--u));margin:calc(-13.5 * var(--u)) 0 0 calc(-13.5 * var(--u));
-    background:#fff;
-    box-shadow:0 0 calc(19 * var(--u)) rgba(255,255,255,.9),0 0 calc(35 * var(--u)) rgba(194,218,105,.8);
+    background:rgba(255,255,255,.55); /* 半透明，透出風車中心 */
+    box-shadow:0 0 calc(19 * var(--u)) rgba(255,255,255,.45),0 0 calc(35 * var(--u)) rgba(194,218,105,.5);
     animation:tapDot 2s ease-in-out infinite;
   }
   .tap-ripple{
