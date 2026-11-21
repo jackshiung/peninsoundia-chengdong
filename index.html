@@ -23,14 +23,19 @@
     :root{--u:min(calc(100vw / 375), max(.8px, calc((100dvh - env(safe-area-inset-top) - calc(env(safe-area-inset-bottom) * 2.4)) / 586.4)), 1.1467px)}
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  /* 背景：漸層畫在 body 上，body 最少撐滿「工具列收起時的整個螢幕高」(100lvh)，
-     所以 LINE／Safari 底部工具列後方也是漸層的一部分，不會露出別的顏色。
-     html 底色＝漸層頂色，給頂端狀態列用 */
-  html{background:#6b7ebd;overscroll-behavior:none}
+  /* 背景：漸層畫在 body 上，body 最少撐滿整個螢幕高 (100lvh)。
+     iPhone Safari（iOS 26）會把網址列後方當成網頁以外的區域，用 html 底色填 → html 底色＝漸層底色；
+     頂端狀態列則取 body 底色 → body 底色＝漸層頂色。
+     另外上下邊緣各放一條固定色條（.edge），Safari 會參考它來染狀態列／網址列 */
+  html{background:#5877ba;overscroll-behavior:none}
+  .edge{position:fixed;left:0;right:0;z-index:0;pointer-events:none}
+  .edge-top{top:0;height:env(safe-area-inset-top);background:#6b7ebd}
+  .edge-bottom{bottom:0;height:calc(env(safe-area-inset-bottom) * 2.4);background:#5877ba}
+  @media (min-width:600px){.edge-bottom{height:env(safe-area-inset-bottom)}}
   body{
     font-family:"Noto Sans TC",-apple-system,"PingFang TC",sans-serif;
     color:var(--white);
-    background:linear-gradient(180deg,#6b7ebd 0%,#7281be 25%,#8288c1 50%,#8c8ec5 68%,#7a84c0 78%,#657cbc 86%,#5877ba 100%) no-repeat #6b7ebd; /* 底色＝漸層頂色：Safari 會拿它填頂端狀態列 */
+    background:linear-gradient(180deg,#6b7ebd 0%,#7281be 25%,#8288c1 50%,#8c8ec5 68%,#7a84c0 76%,#657cbc 83%,#5877ba 90%,#5877ba 100%) no-repeat #6b7ebd; /* 底色＝漸層頂色：Safari 會拿它填頂端狀態列 */
     background-size:100% 100%;
     min-height:100vh;min-height:100lvh;
     overscroll-behavior:none;
@@ -190,6 +195,8 @@
 </style>
 </head>
 <body>
+<span class="edge edge-top" aria-hidden="true"></span>
+<span class="edge edge-bottom" aria-hidden="true"></span>
 <main id="app">
   <span class="gap g0" aria-hidden="true"></span>
   <img class="logo" src="assets/logo.svg" alt="共聲島 PeninSOUNDla">
